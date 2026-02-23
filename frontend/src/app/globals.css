@@ -1,0 +1,121 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── Fontes Montreal (mesmas da landing page) ─── */
+@font-face {
+  font-family: 'Montreal Thin';
+  font-style: normal;
+  font-weight: normal;
+  src: local('Montreal Thin'), url('/fonts/MontrealThin.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Montreal Light';
+  font-style: normal;
+  font-weight: normal;
+  src: local('Montreal Light'), url('/fonts/MontrealLight.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Montreal Regular';
+  font-style: normal;
+  font-weight: normal;
+  src: local('Montreal Regular'), url('/fonts/MontrealRegular.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Montreal Medium';
+  font-style: normal;
+  font-weight: normal;
+  src: local('Montreal Medium'), url('/fonts/MontrealMedium.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Montreal Bold';
+  font-style: normal;
+  font-weight: normal;
+  src: local('Montreal Bold'), url('/fonts/MontrealBold.ttf') format('truetype');
+}
+
+:root {
+  --font-mono: 'DM Mono', monospace;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background-color: #000000;
+  color: #ffffff;
+  font-family: 'Montreal Regular', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  scrollbar-width: thin;
+  scrollbar-color: #333 #000;
+}
+
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: #000; }
+::-webkit-scrollbar-thumb { background: #333; border-radius: 2px; }
+
+/* ─── Componentes base ─── */
+.card {
+  @apply bg-white/5 border border-white/10 rounded-3xl;
+}
+
+.card-highlight {
+  @apply bg-white text-black border-2 border-white rounded-3xl;
+}
+
+.btn-primary {
+  @apply bg-white text-black px-6 py-2.5 rounded-full text-sm font-medium
+         hover:bg-gray-100 transition-all duration-200 cursor-pointer;
+}
+
+.btn-ghost {
+  @apply bg-white/10 text-white border border-white/20 px-6 py-2.5 rounded-full text-sm
+         hover:bg-white/20 transition-all duration-200 cursor-pointer;
+}
+
+.input-field {
+  @apply w-full border border-white/10 rounded-2xl px-5 py-3.5
+       text-white placeholder-gray-600 text-sm font-mono text-center
+       outline-none focus:border-white/30 transition-all duration-200;
+background: rgba(0,0,0,1);
+}
+
+.label {
+  @apply block text-xs uppercase tracking-wider text-gray-500 mb-2;
+  font-family: var(--font-mono);
+}
+
+.num {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ─── Tabela ─── */
+.tr-row {
+  @apply border-b border-white/5 hover:bg-white/5 transition-colors;
+}
+
+/* Status dots */
+.dot-positive { @apply w-1.5 h-1.5 rounded-full bg-white inline-block; }
+.dot-negative { @apply w-1.5 h-1.5 rounded-full bg-gray-600 inline-block; }
+
+@keyframes blurPulse {
+  0%   { backdrop-filter: blur(2px); }
+  15%  { backdrop-filter: blur(1px); }
+  25%  { backdrop-filter: blur(6px); }
+  40%  { backdrop-filter: blur(1px); }
+  50%  { backdrop-filter: blur(3px); }
+  65%  { backdrop-filter: blur(1px); }
+  75%  { backdrop-filter: blur(8px); }
+  88%  { backdrop-filter: blur(1px); }
+  100% { backdrop-filter: blur(2px); }
+}
+
+.blur-animate {
+  animation: blurPulse 8s ease-in-out infinite;
+}
