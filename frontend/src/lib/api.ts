@@ -1,42 +1,44 @@
-import axios from 'axios'
-import Cookies from 'js-cookie'
+import axios from 'axios';
+import Cookies from 'js-cookie';
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://www.projektrage.com.br/api'
+const BASE_URL =
+  process.env.NEXT_PUBLIC_API_URL || 'https://www.projektrage.com.br/api';
 
 export const api = axios.create({
   baseURL: BASE_URL,
   headers: { 'Content-Type': 'application/json' },
   timeout: 15_000,
-})
+});
 
-// Injeta token em todas as requisições
-api.interceptors.request.use((config) => {
-  const token = Cookies.get('mt5_token')
+api.interceptors.request.use(config => {
+  const token = Cookies.get('mt5_token');
   if (token) {
-    config.headers.Authorization = `Bearer ${token}`
+    config.headers.Authorization = `Bearer ${token}`;
   }
-  return config
-})
+  return config;
+});
 
-// Refresh automático se 401
 api.interceptors.response.use(
-  (response) => response,
-  async (error) => {
-    const original = error.config
+  response => response,
+  async error => {
+    const original = error.config;
 
     if (error.response?.status === 401 && !original._retry) {
-      original._retry = true
+      original._retry = true;
       try {
-        const { data } = await api.post('/auth/refresh')
-        Cookies.set('mt5_token', data.access_token, { expires: 1, sameSite: 'strict' })
-        original.headers.Authorization = `Bearer ${data.access_token}`
-        return api(original)
+        const { data } = await api.post('/auth/refresh');
+        Cookies.set('mt5_token', data.access_token, {
+          expires: 1,
+          sameSite: 'strict',
+        });
+        original.headers.Authorization = `Bearer ${data.access_token}`;
+        return api(original);
       } catch {
-        Cookies.remove('mt5_token')
-        window.location.href = '/login'
+        Cookies.remove('mt5_token');
+        window.location.href = '/login';
       }
     }
 
-    return Promise.reject(error)
-  }
-)
+    return Promise.reject(error);
+  },
+);

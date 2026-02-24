@@ -1,15 +1,15 @@
-'use client'
+'use client';
 
-import { useAuthStore } from '@/store/authStore'
-import DashboardFreePage from './dashboard-free'
-import DashboardActivePage from './dashboard-active'
+import { useAuthStore } from '@/store/authStore';
+import DashboardFreePage from './dashboard-free';
+import DashboardActivePage from './dashboard-active';
 
 export default function DashboardPage() {
-  const { hasActivePlan } = useAuthStore()
+  const { hasActivePlan } = useAuthStore();
 
   if (!hasActivePlan()) {
-    return <DashboardFreePage />
+    return <DashboardFreePage />;
   }
 
-  return <DashboardActivePage />
+  return <DashboardActivePage />;
 }

@@ -1,6 +1,6 @@
-import type { Metadata } from 'next'
-import { Toaster } from 'react-hot-toast'
-import './globals.css'
+import type { Metadata } from 'next';
+import { Toaster } from 'react-hot-toast';
+import './globals.css';
 
 export const metadata: Metadata = {
   title: 'projeKt Rage — Dashboard',
@@ -8,19 +8,22 @@ export const metadata: Metadata = {
   icons: {
     icon: '/favicon.png',
   },
-}
+};
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
-  // Limpa autenticacao em desenvolvimento
-if (typeof window !== 'undefined' && process.env.NODE_ENV === 'development') {
-  localStorage.removeItem('auth-storage')
-}
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  if (typeof window !== 'undefined' && process.env.NODE_ENV === 'development') {
+    localStorage.removeItem('auth-storage');
+  }
   return (
-    <html lang="pt-BR">
-      <body className="bg-black text-white min-h-screen">
+    <html lang='pt-BR'>
+      <body className='bg-black text-white min-h-screen'>
         {children}
         <Toaster
-          position="bottom-right"
+          position='bottom-right'
           toastOptions={{
             style: {
               background: '#111',
@@ -34,5 +37,5 @@ if (typeof window !== 'undefined' && process.env.NODE_ENV === 'development') {
         />
       </body>
     </html>
-  )
+  );
 }

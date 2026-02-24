@@ -5,45 +5,57 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ─── Fontes Montreal (mesmas da landing page) ─── */
 @font-face {
   font-family: 'Montreal Thin';
   font-style: normal;
   font-weight: normal;
-  src: local('Montreal Thin'), url('/fonts/MontrealThin.ttf') format('truetype');
+  src:
+    local('Montreal Thin'),
+    url('/fonts/MontrealThin.ttf') format('truetype');
 }
 @font-face {
   font-family: 'Montreal Light';
   font-style: normal;
   font-weight: normal;
-  src: local('Montreal Light'), url('/fonts/MontrealLight.ttf') format('truetype');
+  src:
+    local('Montreal Light'),
+    url('/fonts/MontrealLight.ttf') format('truetype');
 }
 @font-face {
   font-family: 'Montreal Regular';
   font-style: normal;
   font-weight: normal;
-  src: local('Montreal Regular'), url('/fonts/MontrealRegular.ttf') format('truetype');
+  src:
+    local('Montreal Regular'),
+    url('/fonts/MontrealRegular.ttf') format('truetype');
 }
 @font-face {
   font-family: 'Montreal Medium';
   font-style: normal;
   font-weight: normal;
-  src: local('Montreal Medium'), url('/fonts/MontrealMedium.ttf') format('truetype');
+  src:
+    local('Montreal Medium'),
+    url('/fonts/MontrealMedium.ttf') format('truetype');
 }
 @font-face {
   font-family: 'Montreal Bold';
   font-style: normal;
   font-weight: normal;
-  src: local('Montreal Bold'), url('/fonts/MontrealBold.ttf') format('truetype');
+  src:
+    local('Montreal Bold'),
+    url('/fonts/MontrealBold.ttf') format('truetype');
 }
 
 :root {
   --font-mono: 'DM Mono', monospace;
 }
 
-* { box-sizing: border-box; }
+* {
+  box-sizing: border-box;
+}
 
-html, body {
+html,
+body {
   margin: 0;
   padding: 0;
   background-color: #000000;
@@ -55,11 +67,17 @@ html, body {
   scrollbar-color: #333 #000;
 }
 
-::-webkit-scrollbar { width: 4px; }
-::-webkit-scrollbar-track { background: #000; }
-::-webkit-scrollbar-thumb { background: #333; border-radius: 2px; }
+::-webkit-scrollbar {
+  width: 4px;
+}
+::-webkit-scrollbar-track {
+  background: #000;
+}
+::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 2px;
+}
 
-/* ─── Componentes base ─── */
 .card {
   @apply bg-white/5 border border-white/10 rounded-3xl;
 }
@@ -82,7 +100,7 @@ html, body {
   @apply w-full border border-white/10 rounded-2xl px-5 py-3.5
        text-white placeholder-gray-600 text-sm font-mono text-center
        outline-none focus:border-white/30 transition-all duration-200;
-background: rgba(0,0,0,1);
+  background: rgba(0, 0, 0, 1);
 }
 
 .label {
@@ -95,25 +113,45 @@ background: rgba(0,0,0,1);
   font-variant-numeric: tabular-nums;
 }
 
-/* ─── Tabela ─── */
 .tr-row {
   @apply border-b border-white/5 hover:bg-white/5 transition-colors;
 }
 
-/* Status dots */
-.dot-positive { @apply w-1.5 h-1.5 rounded-full bg-white inline-block; }
-.dot-negative { @apply w-1.5 h-1.5 rounded-full bg-gray-600 inline-block; }
+.dot-positive {
+  @apply w-1.5 h-1.5 rounded-full bg-white inline-block;
+}
+.dot-negative {
+  @apply w-1.5 h-1.5 rounded-full bg-gray-600 inline-block;
+}
 
 @keyframes blurPulse {
-  0%   { backdrop-filter: blur(2px); }
-  15%  { backdrop-filter: blur(1px); }
-  25%  { backdrop-filter: blur(6px); }
-  40%  { backdrop-filter: blur(1px); }
-  50%  { backdrop-filter: blur(3px); }
-  65%  { backdrop-filter: blur(1px); }
-  75%  { backdrop-filter: blur(8px); }
-  88%  { backdrop-filter: blur(1px); }
-  100% { backdrop-filter: blur(2px); }
+  0% {
+    backdrop-filter: blur(2px);
+  }
+  15% {
+    backdrop-filter: blur(1px);
+  }
+  25% {
+    backdrop-filter: blur(6px);
+  }
+  40% {
+    backdrop-filter: blur(1px);
+  }
+  50% {
+    backdrop-filter: blur(3px);
+  }
+  65% {
+    backdrop-filter: blur(1px);
+  }
+  75% {
+    backdrop-filter: blur(8px);
+  }
+  88% {
+    backdrop-filter: blur(1px);
+  }
+  100% {
+    backdrop-filter: blur(2px);
+  }
 }
 
 .blur-animate {

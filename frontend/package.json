@@ -1,13 +1,9 @@
 {
-  "name": "dashboard-1",
+  "name": "dashboard",
   "version": "1.0.0",
   "description": "Dashboard de gestão multiconta MT5 servido em `projektrage.com.br/dashboard`.",
   "main": "index.js",
-  "directories": {
-    "doc": "docs"
-  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
@@ -41,6 +37,7 @@
     "zustand": "^5.0.11"
   },
   "devDependencies": {
+    "@types/js-cookie": "^3.0.6",
     "@types/node": "^25.3.0",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
