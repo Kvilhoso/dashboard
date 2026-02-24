@@ -6,3 +6,10 @@ node_modules
 
 # Next.js
 .next
+
+# Backend
+.env
+__pycache__
+__pycache__
+.pyc
+.pyo

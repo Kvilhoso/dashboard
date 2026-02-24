@@ -35,13 +35,44 @@ Dashboard de gestão e copy trading MT5 para clientes do projeKt Rage.
 
 ## Setup local
 
+### Frontend
 ```bash
 cd frontend
 npm install
 npm run dev
 ```
+> Roda em `http://localhost:3000`
 
-> O servidor roda em `http://localhost:3000`
+### Backend
+```bash
+cd backend
+pip install -r requirements.txt
+uvicorn main:app --reload --port 8000
+```
+> Roda em `http://localhost:8000`
+> Documentação automática da API: `http://localhost:8000/docs`
+
+### Banco de dados (PostgreSQL)
+```bash
+# Adicionar PostgreSQL ao PATH (PowerShell)
+$env:PATH += ";C:\Program Files\PostgreSQL\18\bin"
+
+# Conectar
+psql -U postgres
+
+# Criar banco (só na primeira vez)
+CREATE DATABASE projektrage;
+\q
+```
+
+> O banco é criado automaticamente ao subir o backend pela primeira vez.
+
+### Variáveis de ambiente
+Copie o `.env` de exemplo e preencha:
+```bash
+cd backend
+# edite o arquivo .env com sua senha do PostgreSQL e credenciais Google OAuth
+```
 
 ---
 
@@ -63,6 +94,7 @@ npm run dev
 - [x] Proxy/middleware — rotas públicas e proteção de rotas privadas
 - [x] AuthStore (Zustand) — token, user, onboarding, plano
 - [x] Rota raiz `/` redireciona para `/login`
+- [x] `.gitignore` configurado — node_modules e .next ignorados
 
 ---
 
@@ -93,40 +125,52 @@ npm run dev
 
 ---
 
-## 🔴 A fazer — Backend
+## ✅ Concluído — Backend
 
 ### Infraestrutura
-- [ ] Instalar PostgreSQL local
-- [ ] Configurar SQLAlchemy + modelos de banco
-- [ ] Migrations com Alembic
+- [x] PostgreSQL 18 instalado e configurado
+- [x] Banco `projektrage` criado
+- [x] SQLAlchemy async + modelos completos
+- [x] Servidor FastAPI rodando em `localhost:8000`
+- [x] Copy Engine integrado e iniciando com o servidor
+- [x] MetaTrader5 conectado ao copy engine
 
 ### Autenticação
-- [ ] `POST /auth/register` — criação de conta
-- [ ] `POST /auth/login` — login com email/senha + JWT (10 min) + refresh token (7 dias)
-- [ ] `GET /auth/google` — OAuth Google
-- [ ] `GET /auth/google/callback` — callback OAuth
-- [ ] `POST /auth/refresh` — renovar JWT
-- [ ] `POST /auth/logout` — invalidar sessão
-- [ ] `GET /auth/me` — dados do usuário logado
-- [ ] `POST /auth/verify-email` — verificar código enviado ao email
-- [ ] `POST /auth/forgot-password` — enviar email de recuperação
-- [ ] `POST /auth/reset-password` — redefinir senha
+- [x] `POST /api/auth/register` — criação de conta
+- [x] `POST /api/auth/login` — login com email/senha + JWT (10 min) + refresh token (7 dias)
+- [x] `GET /api/auth/google` — OAuth Google
+- [x] `GET /api/auth/google/callback` — callback OAuth
+- [x] `POST /api/auth/refresh` — renovar JWT
+- [x] `POST /api/auth/logout` — invalidar sessão
+- [x] `GET /api/auth/me` — dados do usuário logado
+- [x] `POST /api/auth/verify-email` — verificar código enviado ao email
+- [x] `POST /api/auth/resend-code` — reenviar código de verificação
+- [x] `POST /api/auth/forgot-password` — enviar email de recuperação
+- [x] `POST /api/auth/reset-password` — redefinir senha
 
 ### Usuários e Planos
-- [ ] `GET /users/me` — perfil do usuário
-- [ ] `PATCH /users/me` — atualizar perfil
-- [ ] `GET /admin/users` — listar usuários (admin)
-- [ ] `PATCH /admin/users/:id/plan` — ativar/desativar plano manualmente
+- [x] `PATCH /api/admin/users/:id/plan` — ativar/desativar plano manualmente (admin)
 
 ### MT5 e Copy Trading
-- [ ] `GET /accounts` — listar contas MT5 do usuário
-- [ ] `POST /accounts` — adicionar conta MT5
-- [ ] `DELETE /accounts/:id` — remover conta
-- [ ] `PATCH /accounts/:id` — editar (lot multiplier, enable/disable)
-- [ ] `GET /trades` — histórico de operações
-- [ ] `GET /trades/live` — operação aberta na conta mestra
-- [ ] `GET /logs` — logs de replicação
-- [ ] WebSocket `/ws/live` — feed em tempo real
+- [x] `GET /api/accounts` — listar contas MT5 do usuário
+- [x] `POST /api/accounts` — adicionar conta MT5
+- [x] `DELETE /api/accounts/:id` — remover conta
+- [x] `PATCH /api/accounts/:id/toggle` — ativar/pausar copy
+- [x] `GET /api/trades` — histórico de operações
+- [x] `GET /api/trades/master` — operações da conta mestra
+- [x] `GET /api/copy-logs` — logs de replicação
+- [x] WebSocket `/ws/{token}` — feed em tempo real
+
+---
+
+## 🔴 A fazer — Backend
+
+### Pendente
+- [ ] Migrations com Alembic
+- [ ] Integração SMTP — envio real de emails (verificação + reset de senha)
+- [ ] Credenciais Google OAuth configuradas no `.env`
+- [ ] `GET /api/users/me` — atualizar perfil
+- [ ] `GET /api/trades/live` — operação aberta na conta mestra em tempo real
 
 ---
 
