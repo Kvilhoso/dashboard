@@ -4,8 +4,9 @@ Dashboard de gestão e copy trading MT5 para clientes do projeKt Rage.
 
 ## Stack
 
-- **Next.js 16** (App Router + Turbopack)
-- **TypeScript**
+- **Next.js 16** — (App Router + Turbopack)
+- **PNPM** — gerenciador de pacotes
+- **TypeScript** — superset do JavaScript
 - **Tailwind CSS** — tema dark com fonte Montreal + Bebas Neue
 - **Framer Motion** — animações de página e componentes
 - **Recharts** — gráficos de performance
@@ -36,23 +37,28 @@ Dashboard de gestão e copy trading MT5 para clientes do projeKt Rage.
 ## Setup local
 
 ### Frontend
+
 ```bash
 cd frontend
 npm install
 npm run dev
 ```
+
 > Roda em `http://localhost:3000`
 
 ### Backend
+
 ```bash
 cd backend
 pip install -r requirements.txt
 uvicorn main:app --reload --port 8000
 ```
+
 > Roda em `http://localhost:8000`
 > Documentação automática da API: `http://localhost:8000/docs`
 
 ### Banco de dados (PostgreSQL)
+
 ```bash
 # Adicionar PostgreSQL ao PATH (PowerShell)
 $env:PATH += ";C:\Program Files\PostgreSQL\18\bin"
@@ -68,7 +74,9 @@ CREATE DATABASE projektrage;
 > O banco é criado automaticamente ao subir o backend pela primeira vez.
 
 ### Variáveis de ambiente
+
 Copie o `.env` de exemplo e preencha:
+
 ```bash
 cd backend
 # edite o arquivo .env com sua senha do PostgreSQL e credenciais Google OAuth
@@ -79,6 +87,7 @@ cd backend
 ## ✅ Concluído
 
 ### Frontend
+
 - [x] Tema visual completo — fundo preto, fontes Montreal + Bebas Neue, cards translúcidos
 - [x] Animação de blur no background (CSS keyframes)
 - [x] Página de login — card escuro, logo no botão, campos centralizados
@@ -101,23 +110,27 @@ cd backend
 ## 🔴 A fazer — Frontend
 
 ### Páginas faltando
+
 - [ ] `/verify-email` — tela de verificação de conta por código enviado ao email
 - [ ] `/forgot-password` — recuperação de senha
 - [ ] `/terms` — Termos de Uso (linkado no register mas página não existe)
 - [ ] `/privacy` — Política de Privacidade (mesmo caso)
 
 ### Login e Registro
+
 - [ ] OAuth Google no login e no registro
 - [ ] Botão "Esqueci minha senha" na página de login
 - [ ] Fluxo de verificação de email pós-registro (código de 6 dígitos)
 - [ ] Links reais para /terms e /privacy no rodapé do register
 
 ### Dashboard
+
 - [ ] Menu mobile — sidebar some em telas pequenas (responsividade)
 - [ ] Número de WhatsApp real no dashboard-free.tsx (placeholder atual: `5500000000000`)
 - [ ] Página `/dashboard/settings` — configurações do usuário
 
 ### Dados reais
+
 - [ ] WebSocket conectado ao backend (live page)
 - [ ] API de contas MT5 conectada (accounts page)
 - [ ] API de operações conectada (trades page)
@@ -128,6 +141,7 @@ cd backend
 ## ✅ Concluído — Backend
 
 ### Infraestrutura
+
 - [x] PostgreSQL 18 instalado e configurado
 - [x] Banco `projektrage` criado
 - [x] SQLAlchemy async + modelos completos
@@ -136,6 +150,7 @@ cd backend
 - [x] MetaTrader5 conectado ao copy engine
 
 ### Autenticação
+
 - [x] `POST /api/auth/register` — criação de conta
 - [x] `POST /api/auth/login` — login com email/senha + JWT (10 min) + refresh token (7 dias)
 - [x] `GET /api/auth/google` — OAuth Google
@@ -149,9 +164,11 @@ cd backend
 - [x] `POST /api/auth/reset-password` — redefinir senha
 
 ### Usuários e Planos
+
 - [x] `PATCH /api/admin/users/:id/plan` — ativar/desativar plano manualmente (admin)
 
 ### MT5 e Copy Trading
+
 - [x] `GET /api/accounts` — listar contas MT5 do usuário
 - [x] `POST /api/accounts` — adicionar conta MT5
 - [x] `DELETE /api/accounts/:id` — remover conta
@@ -166,6 +183,7 @@ cd backend
 ## 🔴 A fazer — Backend
 
 ### Pendente
+
 - [ ] Migrations com Alembic
 - [ ] Integração SMTP — envio real de emails (verificação + reset de senha)
 - [ ] Credenciais Google OAuth configuradas no `.env`
@@ -188,16 +206,16 @@ cd backend
 
 Tema dark com estética trading premium:
 
-| Elemento | Valor |
-|---|---|
-| Fundo | `#000000` puro |
-| Cards | `rgba(255,255,255,0.06)` |
-| Bordas | `rgba(255,255,255,0.10)` |
-| Texto principal | `#ffffff` |
-| Texto secundário | `#6b7280` |
-| Fonte display | Bebas Neue |
-| Fonte corpo | Montreal (Thin/Light/Regular/Medium/Bold) |
-| Fonte mono | DM Mono / system-ui |
+| Elemento         | Valor                                     |
+| ---------------- | ----------------------------------------- |
+| Fundo            | `#000000` puro                            |
+| Cards            | `rgba(255,255,255,0.06)`                  |
+| Bordas           | `rgba(255,255,255,0.10)`                  |
+| Texto principal  | `#ffffff`                                 |
+| Texto secundário | `#6b7280`                                 |
+| Fonte display    | Bebas Neue                                |
+| Fonte corpo      | Montreal (Thin/Light/Regular/Medium/Bold) |
+| Fonte mono       | DM Mono / system-ui                       |
 
 ---
 
