@@ -155,5 +155,5 @@ body {
 }
 
 .blur-animate {
-  animation: blurPulse 8s ease-in-out infinite;
+  animation: blurPulse 60s ease-in-out infinite;
 }

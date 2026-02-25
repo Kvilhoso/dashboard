@@ -3,7 +3,7 @@ import { Toaster } from 'react-hot-toast';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'projeKt Rage — Dashboard',
+  title: 'projeKt Rage',
   description: 'Gestão multiconta MetaTrader 5',
   icons: {
     icon: '/favicon.png',
