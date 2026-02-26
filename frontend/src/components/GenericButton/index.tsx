@@ -3,7 +3,7 @@ import { GenericButtonProps } from '@/typings';
 export function GenericButton(props: GenericButtonProps) {
   const {
     type = 'button',
-    rounded = 'lg',
+    rounded = 'large',
     layout = 'default',
     loading,
     disabled,

@@ -12,13 +12,7 @@ import * as yup from 'yup';
 import { useAuthStore } from '@/store/authStore';
 import { CopyRight, GenericButton, TextField } from '@/components';
 import { email, fullname, passwords } from '@/validations';
-
-interface RegisterFormData {
-  fullname: string;
-  email: string;
-  password: string;
-  passwordConfirm: string;
-}
+import { RegisterFormData } from '@/typings';
 
 const schema = yup.object().shape({
   fullname,

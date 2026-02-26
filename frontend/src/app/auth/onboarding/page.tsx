@@ -1,215 +1,195 @@
 'use client';
 
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { motion, AnimatePresence } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
+import Image from 'next/image';
+import { useForm } from 'react-hook-form';
+import { CopyRight, GenericButton, IconButton } from '@/components';
 import { useAuthStore } from '@/store/authStore';
+import { STEPS } from '@/constants';
 
-const STEPS = [
-  {
-    id: 'capital',
-    question: 'Qual é o seu capital disponível para trading?',
-    options: [
-      { label: 'Até $3.000', value: 'entry', hint: 'Ideal para o plano Entry' },
-      {
-        label: '$3.000 – $15.000',
-        value: 'pro',
-        hint: 'Ideal para o plano Pro',
-      },
-      {
-        label: '$15.000 – $200.000',
-        value: 'dynamic',
-        hint: 'Ideal para o plano Dynamic',
-      },
-      {
-        label: 'Acima de $200.000',
-        value: 'unlimited',
-        hint: 'Ideal para o plano Unlimited',
-      },
-    ],
-  },
-  {
-    id: 'experience',
-    question: 'Qual é a sua experiência com trading automatizado?',
-    options: [
-      { label: 'Nenhuma', value: 'none', hint: 'Vou te guiar em cada passo' },
-      {
-        label: 'Iniciante',
-        value: 'beginner',
-        hint: 'Já ouvi falar, mas nunca usei',
-      },
-      {
-        label: 'Intermediário',
-        value: 'intermediate',
-        hint: 'Já usei EAs antes',
-      },
-      { label: 'Avançado', value: 'advanced', hint: 'Conheço bem o mercado' },
-    ],
-  },
-  {
-    id: 'goal',
-    question: 'Qual é o seu principal objetivo?',
-    options: [
-      {
-        label: 'Renda passiva',
-        value: 'passive',
-        hint: 'Quero retornos consistentes',
-      },
-      {
-        label: 'Crescer patrimônio',
-        value: 'growth',
-        hint: 'Foco no longo prazo',
-      },
-      {
-        label: 'Alta performance',
-        value: 'performance',
-        hint: 'Quero maximizar ganhos',
-      },
-      {
-        label: 'Testar a estratégia',
-        value: 'test',
-        hint: 'Quero conhecer antes de investir mais',
-      },
-    ],
-  },
-];
+interface OnboardingFormData {
+  steps: string[];
+}
 
 export default function OnboardingPage() {
   const [step, setStep] = useState(0);
-  const [answers, setAnswers] = useState<Record<string, string>>({});
-  const [selected, setSelected] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
+
   const { setOnboarding } = useAuthStore();
 
+  const { watch, setValue, handleSubmit } = useForm<OnboardingFormData>({
+    defaultValues: {
+      steps: [],
+    },
+  });
+
   const current = STEPS[step];
+  const isFirst = step === 0;
   const isLast = step === STEPS.length - 1;
   const progress = (step / STEPS.length) * 100;
+  const stepsValues = watch('steps');
+  const currentSelected = stepsValues[step] || null;
 
-  function handleSelect(value: string) {
-    setSelected(value);
+  function onSelect(value: string) {
+    let newSteps = [...stepsValues];
+    if (currentSelected) newSteps[step] = value;
+    else newSteps = [...newSteps, value];
+
+    setValue('steps', newSteps);
   }
 
-  function handleNext() {
-    if (!selected) return;
-    const newAnswers = { ...answers, [current.id]: selected };
-    setAnswers(newAnswers);
-    setSelected(null);
+  function onGoBack() {
+    if (isFirst) return;
 
-    if (isLast) {
-      setOnboarding(newAnswers);
-      router.push('/dashboard');
-    } else {
-      setStep(s => s + 1);
-    }
+    setStep(s => s - 1);
   }
+
+  async function onNext() {
+    if (!currentSelected) return;
+
+    setStep(s => s + 1);
+  }
+
+  const onSubmit = handleSubmit(async data => {
+    setLoading(true);
+
+    const [capital, experience, goal] = data.steps;
+
+    setOnboarding({
+      capital,
+      experience,
+      goal,
+    });
+
+    await new Promise(r => setTimeout(r, 1000));
+    router.push('/dashboard');
+    setLoading(false);
+  });
+
+  const renderCards = useMemo(
+    () =>
+      current.options.map(option => {
+        const isSelected = stepsValues.includes(option.value);
+
+        return (
+          <button
+            type='button'
+            key={option.value}
+            onClick={() => onSelect(option.value)}
+            className={`w-full p-4 rounded-lg border transition-all duration-300 focus:outline-none active:scale-[0.98] group ${
+              isSelected
+                ? 'bg-white text-black border-white hover:bg-neutral-200 disabled:bg-neutral-200 focus:ring-1 focus:ring-white'
+                : 'bg-neutral-900 text-white border-neutral-800 hover:bg-neutral-800 disabled:bg-neutral-800 focus:ring-1 focus:ring-neutral-900'
+            }`}
+            disabled={loading}
+          >
+            <div className='flex items-center justify-between'>
+              <span className='text-sm text-left font-medium'>
+                {option.label}
+              </span>
+              <span
+                className={`text-sm text-right font-mono ${isSelected ? 'text-neutral-900 hover:text-neutral-800' : 'text-neutral-500 hover:text-neutral-400'}`}
+              >
+                {option.hint}
+              </span>
+            </div>
+          </button>
+        );
+      }),
+    [current, loading, stepsValues],
+  );
 
   return (
-    <div className='min-h-screen bg-black flex flex-col items-center justify-center px-6 relative overflow-hidden'>
-      <div
-        className='absolute inset-0 pointer-events-none'
-        style={{
-          backgroundImage: `url(/gradient.png)`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          opacity: 0.3,
-        }}
-      />
-      <div className='absolute inset-0 pointer-events-none blur-animate' />
-      <div
-        className='absolute inset-0 pointer-events-none'
-        style={{
-          background:
-            'radial-gradient(ellipse 60% 70% at 50% 50%, transparent 20%, rgba(0,0,0,0.8) 100%)',
-        }}
-      />
-
-      <div className='w-full max-w-lg relative z-10'>
-        <motion.div
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          className='text-center mb-10'
-        >
-          <p className='text-xs uppercase tracking-wider text-gray-600 mb-2'>
-            {step + 1} de {STEPS.length}
-          </p>
-          <p
-            style={{ fontFamily: "'Montreal Bold', sans-serif" }}
-            className='text-xl text-white/30'
-          >
-            projeKt Rage
-          </p>
-        </motion.div>
-
-        <div className='w-full h-px bg-white/10 mb-10 rounded-full overflow-hidden'>
-          <motion.div
-            className='h-full bg-white/60 rounded-full'
-            animate={{ width: `${progress + 100 / STEPS.length}%` }}
-            transition={{ duration: 0.5, ease: 'easeInOut' }}
-          />
-        </div>
-
+    <main className='min-h-screen w-full flex flex-col items-center justify-center bg-black px-4'>
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className='w-full max-w-lg rounded-2xl border border-neutral-800 bg-neutral-950 p-8 relative z-10'
+      >
         <AnimatePresence mode='wait'>
-          <motion.div
-            key={step}
-            initial={{ opacity: 0, x: 30 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -30 }}
-            transition={{ duration: 0.35 }}
-          >
-            <h2
-              style={{ fontFamily: "'Montreal Medium', sans-serif" }}
-              className='text-2xl text-white mb-8 leading-snug'
+          {!isFirst && (
+            <motion.div
+              key='go-back'
+              initial={{ opacity: 0, x: -24 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -24 }}
+              transition={{ duration: 0.35, ease: 'easeInOut' }}
+              className='absolute top-7 left-7'
             >
-              {current.question}
-            </h2>
-
-            <div className='space-y-3'>
-              {current.options.map(opt => (
-                <button
-                  key={opt.value}
-                  onClick={() => handleSelect(opt.value)}
-                  className={`w-full text-left px-6 py-4 rounded-2xl border transition-all duration-200 group ${
-                    selected === opt.value
-                      ? 'bg-white text-black border-white'
-                      : 'bg-white/5 border-white/10 text-white hover:bg-white/10 hover:border-white/20'
-                  }`}
-                >
-                  <div className='flex items-center justify-between'>
-                    <span className='text-sm font-medium'>{opt.label}</span>
-                    <span
-                      className={`text-xs font-mono ${selected === opt.value ? 'text-black/50' : 'text-gray-600'}`}
-                    >
-                      {opt.hint}
-                    </span>
-                  </div>
-                </button>
-              ))}
-            </div>
-
-            <button
-              onClick={handleNext}
-              disabled={!selected}
-              className='w-full mt-8 bg-white text-black py-3.5 rounded-full text-sm font-medium hover:bg-gray-100 disabled:bg-white/10 disabled:text-gray-600 disabled:cursor-not-allowed transition-all duration-200'
-            >
-              {isLast ? 'Ir para o dashboard' : 'Continuar'}
-            </button>
-          </motion.div>
+              <IconButton
+                name='arrow-left'
+                disabled={loading}
+                onClick={onGoBack}
+              />
+            </motion.div>
+          )}
         </AnimatePresence>
 
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.5 }}
-          className='text-center mt-6'
+        <div className='flex flex-col items-center gap-2 mb-8'>
+          <Image
+            src='/logo-circle.png'
+            alt='projeKt Rage logo'
+            width={48}
+            height={48}
+            className='size-12'
+          />
+
+          <h1 className='text-2xl font-bold text-white tracking-tight'>
+            Onboarding
+          </h1>
+        </div>
+
+        <div className='mb-8'>
+          <p className='text-xs uppercase tracking-wider text-gray-600 mb-2 text-center'>
+            {step + 1} de {STEPS.length}
+          </p>
+
+          <div className='w-full h-2 bg-white/10 rounded-lg overflow-hidden mb-6'>
+            <motion.div
+              key='progress'
+              initial={{ width: `${progress}%` }}
+              animate={{ width: `${((step + 1) / STEPS.length) * 100}%` }}
+              transition={{ duration: 0.5, ease: 'easeInOut' }}
+              className='h-full bg-white rounded-lg shadow-lg'
+            />
+          </div>
+
+          <div className='mb-6 min-h-[2.5em]'>
+            <AnimatePresence mode='wait'>
+              <motion.h2
+                key={step}
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -16 }}
+                transition={{ duration: 0.35, ease: 'easeInOut' }}
+                className='text-xl text-white text-center'
+              >
+                {current.question}
+              </motion.h2>
+            </AnimatePresence>
+          </div>
+
+          <div className='space-y-3'>{renderCards}</div>
+        </div>
+
+        <GenericButton
+          type='button'
+          layout='outline'
+          loading={loading}
+          disabled={!currentSelected || loading}
+          onClick={isLast ? onSubmit : onNext}
         >
-          <button
-            onClick={() => router.push('/dashboard')}
-            className='text-xs text-gray-700 hover:text-gray-500 font-mono transition'
-          >
-            pular por agora
-          </button>
-        </motion.p>
-      </div>
-    </div>
+          {isLast ? 'Concluir' : 'Avançar'}
+        </GenericButton>
+
+        <div className='text-center mt-8'>
+          <CopyRight />
+        </div>
+      </motion.div>
+    </main>
   );
 }
