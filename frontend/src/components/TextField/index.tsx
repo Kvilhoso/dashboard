@@ -1,5 +1,6 @@
 import { Eye, EyeOff } from 'lucide-react';
 import { useMemo, useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { TextFieldProps, TextFieldState } from '@/typings';
 
 export function TextField(props: TextFieldProps) {
@@ -44,9 +45,22 @@ export function TextField(props: TextFieldProps) {
     };
     const hintClass = disabled ? 'text-neutral-600' : hintClasses[state];
 
-    return hint ? (
-      <p className={`block text-xs font-medium mt-2 ${hintClass}`}>{hint}</p>
-    ) : null;
+    return (
+      <AnimatePresence>
+        {hint && (
+          <motion.p
+            key='hint'
+            initial={{ opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.3, ease: 'easeInOut' }}
+            className={`block text-xs font-medium mt-2 ${hintClass}`}
+          >
+            {hint}
+          </motion.p>
+        )}
+      </AnimatePresence>
+    );
   }, [hint, disabled, state, isError]);
 
   return (

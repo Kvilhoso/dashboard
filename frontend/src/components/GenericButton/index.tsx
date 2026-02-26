@@ -30,7 +30,7 @@ export function GenericButton(props: GenericButtonProps) {
     <button
       type={type}
       disabled={loading || disabled}
-      className={`w-full h-10 flex items-center justify-center p-3 ${roundedClass} text-base font-normal ${layoutButtonClass} transition-all duration-300 ${cursorClass} focus:outline-none focus:ring-1 ${className}`}
+      className={`w-full h-10 flex items-center justify-center p-3 ${roundedClass} text-base font-normal ${layoutButtonClass} transition-all duration-300 ${cursorClass} focus:outline-none focus:ring-1 active:scale-[0.98] ${className}`}
       {...rest}
     >
       {loading ? (
