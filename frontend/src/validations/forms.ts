@@ -30,10 +30,10 @@ export const password = yup
   .matches(hasAlphas, 'A senha deve conter pelo menos um caracter especial')
   .min(8, 'A senha deve conter pelo menos 8 caracteres');
 
-export const passwords = yup.object().shape({
-  password: password,
+export const passwords = {
+  password,
   passwordConfirm: yup
     .string()
     .required('A senha é obrigatória.')
     .oneOf([yup.ref('password')], 'As senhas não coincidem.'),
-});
+};

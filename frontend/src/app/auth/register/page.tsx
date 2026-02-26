@@ -11,41 +11,48 @@ import * as yup from 'yup';
 
 import { useAuthStore } from '@/store/authStore';
 import { CopyRight, GenericButton, TextField } from '@/components';
-import { email, password } from '@/validations';
+import { email, fullname, passwords } from '@/validations';
 
-interface LoginFormData {
+interface RegisterFormData {
+  fullname: string;
   email: string;
   password: string;
+  passwordConfirm: string;
 }
 
-const schema = yup.object({
+const schema = yup.object().shape({
+  fullname,
   email,
-  password,
+  ...passwords,
 });
 
-export default function LoginPage() {
+export default function RegisterPage() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const { setToken, setUser } = useAuthStore();
 
-  const { control, watch, handleSubmit } = useForm<LoginFormData>({
-    defaultValues: { email: '', password: '' },
+  const { control, watch, handleSubmit } = useForm<RegisterFormData>({
+    defaultValues: {
+      fullname: '',
+      email: '',
+      password: '',
+      passwordConfirm: '',
+    },
     resolver: yupResolver(schema),
   });
 
-  const isDisabled = !watch('email') || !watch('password');
+  const isDisabled =
+    !watch('fullname') ||
+    !watch('email') ||
+    !watch('password') ||
+    !watch('passwordConfirm');
 
   const onSubmit = handleSubmit(async data => {
     setLoading(true);
     await new Promise(r => setTimeout(r, 1000));
     setToken('demo-token-' + Date.now());
-    setUser({
-      id: '1',
-      name: data.email.split('@')[0] || 'Usuário',
-      email: data.email,
-      plan: null,
-    });
-    router.push('/dashboard');
+    setUser({ id: '1', name: data.fullname, email: data.email, plan: null });
+    router.push('/auth/onboarding');
     setLoading(false);
   });
 
@@ -65,14 +72,28 @@ export default function LoginPage() {
             height={48}
             className='size-12'
           />
-
           <h1 className='text-2xl font-bold text-white tracking-tight'>
             projeKt Rage
           </h1>
         </div>
 
         <form onSubmit={onSubmit} className='flex flex-col my-4'>
-          <div>
+          <Controller
+            name='fullname'
+            control={control}
+            render={({ field, formState }) => (
+              <TextField
+                {...field}
+                eyebrow='Nome completo'
+                placeholder='Seu nome completo'
+                disabled={loading}
+                hint={formState.errors.fullname?.message ?? undefined}
+                state={formState.errors.fullname ? 'error' : 'default'}
+              />
+            )}
+          />
+
+          <div className='mt-4'>
             <Controller
               name='email'
               control={control}
@@ -83,8 +104,6 @@ export default function LoginPage() {
                   type='email'
                   placeholder='seu@email.com'
                   disabled={loading}
-                  onChange={field.onChange}
-                  onBlur={field.onBlur}
                   hint={formState.errors.email?.message ?? undefined}
                   state={formState.errors.email ? 'error' : 'default'}
                 />
@@ -92,7 +111,7 @@ export default function LoginPage() {
             />
           </div>
 
-          <div className='mt-4 mb-8'>
+          <div className='mt-4'>
             <Controller
               name='password'
               control={control}
@@ -101,12 +120,28 @@ export default function LoginPage() {
                   {...field}
                   eyebrow='Senha'
                   type='password'
-                  placeholder='•••••••••'
+                  placeholder='Sua senha'
                   disabled={loading}
-                  onChange={field.onChange}
-                  onBlur={field.onBlur}
                   hint={formState.errors.password?.message ?? undefined}
                   state={formState.errors.password ? 'error' : 'default'}
+                />
+              )}
+            />
+          </div>
+
+          <div className='mt-4 mb-8'>
+            <Controller
+              name='passwordConfirm'
+              control={control}
+              render={({ field, formState }) => (
+                <TextField
+                  {...field}
+                  eyebrow='Confirmar senha'
+                  type='password'
+                  placeholder='Repita a senha'
+                  disabled={loading}
+                  hint={formState.errors.passwordConfirm?.message ?? undefined}
+                  state={formState.errors.passwordConfirm ? 'error' : 'default'}
                 />
               )}
             />
@@ -118,13 +153,13 @@ export default function LoginPage() {
             loading={loading}
             disabled={isDisabled}
           >
-            Entrar
+            Criar conta
           </GenericButton>
         </form>
 
-        <Link href='/register' className='block mt-4' tabIndex={-1}>
+        <Link href='/auth/login' className='block mt-4' tabIndex={-1}>
           <GenericButton disabled={loading} tabIndex={0}>
-            Criar conta
+            Já tenho conta
           </GenericButton>
         </Link>
 
