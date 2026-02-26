@@ -154,7 +154,7 @@ export default function OnboardingPage() {
               initial={{ width: `${progress}%` }}
               animate={{ width: `${((step + 1) / STEPS.length) * 100}%` }}
               transition={{ duration: 0.5, ease: 'easeInOut' }}
-              className='h-full bg-white rounded-lg shadow-lg'
+              className={`h-full bg-white rounded-lg shadow-lg ${loading ? 'bg-neutral-200' : 'bg-white'}`}
             />
           </div>
 
