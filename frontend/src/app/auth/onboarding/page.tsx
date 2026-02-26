@@ -64,7 +64,10 @@ export default function OnboardingPage() {
       goal,
     });
 
-    await new Promise(r => setTimeout(r, 1000));
+    if (data.steps.length > 0) {
+      await new Promise(r => setTimeout(r, 1000));
+    }
+
     router.push('/dashboard');
     setLoading(false);
   });
@@ -177,13 +180,21 @@ export default function OnboardingPage() {
         </div>
 
         <GenericButton
-          type='button'
           layout='outline'
           loading={loading}
           disabled={!currentSelected || loading}
           onClick={isLast ? onSubmit : onNext}
         >
           {isLast ? 'Concluir' : 'Avançar'}
+        </GenericButton>
+
+        <GenericButton
+          layout='ghost'
+          className='mt-4'
+          disabled={loading}
+          onClick={onSubmit}
+        >
+          Pular
         </GenericButton>
 
         <div className='text-center mt-8'>
