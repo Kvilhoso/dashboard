@@ -18,7 +18,7 @@ export function GenericButton(props: GenericButtonProps) {
     outline:
       'bg-white text-black hover:bg-neutral-200 disabled:bg-neutral-200 disabled:text-neutral-800 focus:ring-white',
     ghost:
-      'bg-transparent text-white border-none hover:bg-neutral-900 hover:text-neutral-200 disabled:bg-neutral-900 disabled:text-neutral-200 focus:outline-none focus:ring-1 focus:ring-white',
+      'bg-transparent text-white border-none hover:bg-neutral-900 disabled:bg-neutral-900 disabled:text-neutral-200 focus:outline-none focus:ring-1 focus:ring-white',
   };
 
   const buttonsLoadingClass: Record<GenericButtonLayout, string> = {

@@ -32,9 +32,9 @@ export function TextField(props: TextFieldProps) {
   const eyebrowClass = disabled ? 'text-neutral-600' : 'text-neutral-500';
 
   const inputClasses: Record<TextFieldState, string> = {
-    default: 'border-neutral-800 focus:ring-neutral-800',
-    error: 'border-red-300 focus:ring-red-300',
-    success: 'border-green-300 focus:ring-green-300',
+    default: 'border-neutral-800 hover:ring-neutral-800 focus:ring-neutral-800',
+    error: 'border-red-300 hover:ring-red-300 focus:ring-red-300',
+    success: 'border-green-300 hover:ring-green-300 focus:ring-green-300',
   };
 
   const renderHint = useMemo(() => {
@@ -76,7 +76,7 @@ export function TextField(props: TextFieldProps) {
           <input
             disabled={disabled}
             type={shouldPassword ? 'text' : 'password'}
-            className={`w-full p-3 pr-9 rounded-lg bg-neutral-900 border ${inputClasses[state]} text-white placeholder-neutral-500 focus:outline-none focus:ring-1 text-sm disabled:bg-neutral-800 disabled:text-neutral-500 disabled:cursor-not-allowed disabled:placeholder-neutral-600 caret-white ${className}`}
+            className={`w-full p-3 pr-9 rounded-lg bg-neutral-900 border ${inputClasses[state]} text-white placeholder-neutral-500 hover:outline-none hover:ring-1 focus:outline-none focus:ring-1 text-sm disabled:bg-neutral-800 disabled:text-neutral-500 disabled:cursor-not-allowed disabled:placeholder-neutral-600 caret-white ${className}`}
             {...rest}
           />
 
@@ -96,7 +96,7 @@ export function TextField(props: TextFieldProps) {
           <input
             type={type}
             disabled={disabled}
-            className={`w-full p-3 rounded-lg bg-neutral-900 border ${inputClasses[state]} text-white placeholder-neutral-500 focus:outline-none focus:ring-1 text-sm disabled:bg-neutral-800 disabled:text-neutral-500 disabled:cursor-not-allowed disabled:placeholder-neutral-600 caret-white ${className}`}
+            className={`w-full p-3 rounded-lg bg-neutral-900 border ${inputClasses[state]} text-white placeholder-neutral-500 hover:outline-none hover:ring-1 focus:outline-none focus:ring-1 text-sm disabled:bg-neutral-800 disabled:text-neutral-500 disabled:cursor-not-allowed disabled:placeholder-neutral-600 caret-white ${className}`}
             {...rest}
           />
 
