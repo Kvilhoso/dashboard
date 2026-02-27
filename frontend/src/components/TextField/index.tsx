@@ -1,7 +1,8 @@
 import { Eye, EyeOff } from 'lucide-react';
 import { useMemo, useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { TextFieldProps, TextFieldState } from '@/typings';
+import { AnimatePresence } from 'framer-motion';
+import { TextFieldProps, TextFieldState, TypographyColor } from '@/typings';
+import { Typography } from '../Typography';
 
 export function TextField(props: TextFieldProps) {
   const {
@@ -29,8 +30,6 @@ export function TextField(props: TextFieldProps) {
     [shouldPassword],
   );
 
-  const eyebrowClass = disabled ? 'text-neutral-600' : 'text-neutral-500';
-
   const inputClasses: Record<TextFieldState, string> = {
     default: 'border-neutral-800 hover:ring-neutral-800 focus:ring-neutral-800',
     error: 'border-red-300 hover:ring-red-300 focus:ring-red-300',
@@ -38,26 +37,30 @@ export function TextField(props: TextFieldProps) {
   };
 
   const renderHint = useMemo(() => {
-    const hintClasses: Record<TextFieldState, string> = {
-      default: 'text-neutral-500',
-      error: 'text-red-300',
-      success: 'text-green-300',
+    const hintColors: Record<TextFieldState, TypographyColor> = {
+      default: 'neutral',
+      error: 'error',
+      success: 'success',
     };
-    const hintClass = disabled ? 'text-neutral-600' : hintClasses[state];
+    const hintColor = disabled ? 'disabled' : hintColors[state];
 
     return (
       <AnimatePresence>
         {hint && (
-          <motion.p
+          <Typography
             key='hint'
+            as='span'
+            weight='medium'
+            color={hintColor}
             initial={{ opacity: 0, y: -8 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.3, ease: 'easeInOut' }}
-            className={`block text-xs font-medium mt-2 ${hintClass}`}
+            className='block mt-2'
+            withPresence={false}
           >
             {hint}
-          </motion.p>
+          </Typography>
         )}
       </AnimatePresence>
     );
@@ -66,9 +69,15 @@ export function TextField(props: TextFieldProps) {
   return (
     <>
       {eyebrow && (
-        <label className={`block text-xs font-medium mb-2 ${eyebrowClass}`}>
+        <Typography
+          as='label'
+          weight='medium'
+          color={disabled ? 'disabled' : 'neutral'}
+          className='block text-xs mb-2'
+          animate={false}
+        >
           {eyebrow}
-        </label>
+        </Typography>
       )}
 
       {isPassword ? (

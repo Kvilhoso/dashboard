@@ -10,7 +10,7 @@ import Image from 'next/image';
 import * as yup from 'yup';
 
 import { useAuthStore } from '@/store/authStore';
-import { CopyRight, GenericButton, TextField } from '@/components';
+import { CopyRight, GenericButton, TextField, Typography } from '@/components';
 import { email, fullname, passwords } from '@/validations';
 import { RegisterFormData } from '@/typings';
 
@@ -66,9 +66,15 @@ export default function RegisterPage() {
             height={48}
             className='size-12'
           />
-          <h1 className='text-2xl font-bold text-white tracking-tight'>
+
+          <Typography
+            as='h3'
+            color='always-light'
+            weight='bold'
+            className='tracking-tight'
+          >
             projeKt Rage
-          </h1>
+          </Typography>
         </div>
 
         <form onSubmit={onSubmit} className='flex flex-col my-4'>

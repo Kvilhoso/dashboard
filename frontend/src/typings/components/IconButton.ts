@@ -1,19 +1,13 @@
 import { ButtonHTMLAttributes } from 'react';
+import { IconName, IconSize } from './Icon';
 
-export type IconButtonName = 'arrow-left' | 'x';
-export type IconButtonSize =
-  | 'x-small'
-  | 'small'
-  | 'medium'
-  | 'large'
-  | 'x-large';
 export type IconButtonRounded = 'full' | 'large';
 
 export interface IconButtonProps extends Omit<
   ButtonHTMLAttributes<HTMLButtonElement>,
   'children'
 > {
-  name: IconButtonName;
-  size?: IconButtonSize;
+  name: IconName;
+  size?: IconSize;
   rounded?: IconButtonRounded;
 }

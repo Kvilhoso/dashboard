@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { AnimatePresence, motion } from 'framer-motion';
 import Image from 'next/image';
 import { useForm } from 'react-hook-form';
-import { CopyRight, GenericButton, IconButton } from '@/components';
+import { CopyRight, GenericButton, IconButton, Typography } from '@/components';
 import { useAuthStore } from '@/store/authStore';
 import { STEPS } from '@/constants';
 
@@ -141,9 +141,14 @@ export default function OnboardingPage() {
             className='size-12'
           />
 
-          <h1 className='text-2xl font-bold text-white tracking-tight'>
+          <Typography
+            as='h3'
+            color='always-light'
+            weight='bold'
+            className='tracking-tight'
+          >
             Onboarding
-          </h1>
+          </Typography>
         </div>
 
         <div className='mb-8'>

@@ -1,3 +1,3 @@
-import { HTMLAttributes } from 'react';
+import { HTMLMotionProps } from 'framer-motion';
 
-export interface CopyRightProps extends HTMLAttributes<HTMLParagraphElement> {}
+export interface CopyRightProps extends HTMLMotionProps<'span'> {}

@@ -1,9 +1,10 @@
 import { CopyRightProps } from '@/typings';
+import { Typography } from '../Typography';
 
 export function CopyRight(props: CopyRightProps) {
   return (
-    <p className='text-xs text-neutral-500' {...props}>
+    <Typography {...props} as='span' color='neutral'>
       © {new Date().getFullYear()} projeKt Rage
-    </p>
+    </Typography>
   );
 }
