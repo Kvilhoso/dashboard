@@ -1,5 +1,5 @@
 import { HTMLMotionProps } from 'framer-motion';
-import { HTMLAttributes, LabelHTMLAttributes, ReactNode } from 'react';
+import { ReactNode } from 'react';
 
 export type TypographyElement =
   | 'h1'
@@ -28,18 +28,6 @@ export type TypographyWeight =
   | 'bold'
   | 'extra-bold'
   | 'black';
-
-export interface NativePropsMap {
-  h1: HTMLAttributes<HTMLHeadingElement>;
-  h2: HTMLAttributes<HTMLHeadingElement>;
-  h3: HTMLAttributes<HTMLHeadingElement>;
-  h4: HTMLAttributes<HTMLHeadingElement>;
-  h5: HTMLAttributes<HTMLHeadingElement>;
-  h6: HTMLAttributes<HTMLHeadingElement>;
-  p: HTMLAttributes<HTMLParagraphElement>;
-  label: LabelHTMLAttributes<HTMLLabelElement>;
-  span: HTMLAttributes<HTMLSpanElement>;
-}
 
 export interface MotionPropsMap {
   h1: HTMLMotionProps<'h1'>;
