@@ -46,8 +46,16 @@
     url('/fonts/MontrealBold.ttf') format('truetype');
 }
 
+@theme {
+  --font-montreal-thin: 'Montreal Thin', 'sans-serif';
+  --font-montreal-light: 'Montreal Light', 'sans-serif';
+  --font-montreal: 'Montreal Regular', 'sans-serif';
+  --font-montreal-medium: 'Montreal Medium', 'sans-serif';
+  --font-montreal-bold: 'Montreal Bold', 'sans-serif';
+}
+
 :root {
-  --font-mono: 'DM Mono', monospace;
+  --font-mono: 'Montreal Regular', monospace;
 }
 
 * {
@@ -156,4 +164,21 @@ body {
 
 .blur-animate {
   animation: blurPulse 60s ease-in-out infinite;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0px 1000px inherit inset !important;
+  -webkit-text-fill-color: #ffffff;
+  caret-color: #ffffff;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+input:-webkit-autofill:disabled {
+  -webkit-box-shadow: 0 0 0px 1000px #262626 inset !important;
+  -webkit-text-fill-color: #737373;
+  caret-color: #ffffff;
+  transition: background-color 5000s ease-in-out 0s;
 }

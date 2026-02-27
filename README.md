@@ -17,12 +17,12 @@ Dashboard de gestão e copy trading MT5 para clientes do projeKt Rage.
 ## Estrutura de páginas
 
 ```
-/                           — Redireciona para /login
-/login                      — Autenticação com email/senha e OAuth Google
-/register                   — Criação de conta gratuita
-/verify-email               — Verificação de conta por código (a fazer)
-/forgot-password            — Recuperação de senha (a fazer)
-/onboarding                 — Perfil inicial do usuário (3 etapas)
+/                           — Redireciona para /auth/login
+/auth/login                      — Autenticação com email/senha e OAuth Google
+/auth/register                   — Criação de conta gratuita
+/auth/verify-email               — Verificação de conta por código (a fazer)
+/auth/forgot-password            — Recuperação de senha (a fazer)
+/auth/onboarding                 — Perfil inicial do usuário (3 etapas)
 /terms                      — Termos de Uso (a fazer)
 /privacy                    — Política de Privacidade (a fazer)
 
@@ -102,7 +102,7 @@ cd backend
 - [x] Página de Logs — histórico de replicação
 - [x] Proxy/middleware — rotas públicas e proteção de rotas privadas
 - [x] AuthStore (Zustand) — token, user, onboarding, plano
-- [x] Rota raiz `/` redireciona para `/login`
+- [x] Rota raiz `/` redireciona para `/auth/login`
 - [x] `.gitignore` configurado — node_modules e .next ignorados
 
 ---

@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
-const PUBLIC_PATHS = ['/login', '/register', '/onboarding'];
+const PUBLIC_PATHS = ['/auth/login', '/auth/register', '/auth/onboarding'];
 
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
@@ -16,12 +16,17 @@ export function proxy(request: NextRequest) {
 
   const token = request.cookies.get('mt5_token')?.value;
   if (!token) {
-    return NextResponse.redirect(new URL('/login', request.url));
+    return NextResponse.redirect(new URL('/auth/login', request.url));
   }
 
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: ['/dashboard/:path*', '/login', '/register', '/onboarding'],
+  matcher: [
+    '/dashboard/:path*',
+    '/auth/login',
+    '/auth/register',
+    '/auth/onboarding',
+  ],
 };

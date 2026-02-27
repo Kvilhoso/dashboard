@@ -35,7 +35,7 @@ api.interceptors.response.use(
         return api(original);
       } catch {
         Cookies.remove('mt5_token');
-        window.location.href = '/login';
+        window.location.href = '/auth/login';
       }
     }
 

@@ -2,13 +2,23 @@ import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
+import { Currency, CurrencyValue } from '@/typings';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export function formatCurrency(value: number, currency = 'BRL'): string {
-  return new Intl.NumberFormat('pt-BR', {
+export function formatCurrency(
+  value: CurrencyValue,
+  currency: Currency = 'USD',
+): string {
+  const locales: Record<Currency, string> = {
+    USD: 'en-US',
+    BRL: 'pt-BR',
+    EUR: 'de-DE',
+  };
+
+  return new Intl.NumberFormat(locales[currency], {
     style: 'currency',
     currency,
     minimumFractionDigits: 2,
